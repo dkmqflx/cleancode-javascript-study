@@ -4,74 +4,74 @@
 
 - ES2015 이전에는 어쩔 수 없이 var 예약어만 사용해서 변수를 선언해야만 했다
 
-- var
+### var
 
-  - var는 함수 스코프를 가진다
+- var는 함수 스코프를 가진다
 
-  ```js
-  var name = '이름';
-  var name = '이름2'; // 아무런 에러 없이 동일한 이름의 변수 선언 가능하다
-  var name = '이름3';
-  var name = '이름3'; // 값 똑같아도 아무러 에러 없다
+```js
+var name = "이름";
+var name = "이름2"; // 아무런 에러 없이 동일한 이름의 변수 선언 가능하다
+var name = "이름3";
+var name = "이름3"; // 값 똑같아도 아무러 에러 없다
 
-  console.log(name); // '이름3'
-  ```
+console.log(name); // '이름3'
+```
 
-  ```js
-  console.log(name); // undefined
+```js
+console.log(name); // undefined
 
-  var name = '이름';
-  ```
+var name = "이름";
+```
 
-- let & const
+### let & const
 
-  - 블록 단위의 스코프를 가진다
+- 블록 단위의 스코프를 가진다
 
-    - 이것이 가장 중요한 핵심
+  - 이것이 가장 중요한 핵심
 
-  - Temporal Dead Zone이라는 속성을 가질 수 있다
+- Temporal Dead Zone이라는 속성을 가질 수 있다
 
-  - 이 두 속성을 통해서 안전하게 코드를 작성할 수 있다
+- 이 두 속성을 통해서 안전하게 코드를 작성할 수 있다
 
-  ```js
-  let name = '이름3';
-  let name = '이름3'; // 동일한 이름의 변수 선언할 수 없다고 에러 발생
-  let name = '이름3';
-  ```
+```js
+let name = "이름3";
+let name = "이름3"; // 동일한 이름의 변수 선언할 수 없다고 에러 발생
+let name = "이름3";
+```
 
-  ```js
-  const name = '이름3';
-  const name = '이름3'; // 동일한 이름의 변수 선언할 수 없다고 에러 발생
-  const name = '이름3';
-  ```
+```js
+const name = "이름3";
+const name = "이름3"; // 동일한 이름의 변수 선언할 수 없다고 에러 발생
+const name = "이름3";
+```
 
-  ```js
-  // let은 재할당 가능
-  let name;
+```js
+// let은 재할당 가능
+let name;
 
-  name = '이름';
-  name = '이름'1;
-  name = '이름2';
+name = '이름';
+name = '이름'1;
+name = '이름2';
 
 
-  // const는 재할당 불가능
+// const는 재할당 불가능
 
-  const name;
+const name;
 
-  name = '이름' // 에러 발생
-  ```
+name = '이름' // 에러 발생
+```
 
 ## 6. function scop & block scope
 
 - var는 함수 단위 스코프를 가진다
 
 ```js
-var global = '전역';
+var global = "전역";
 
-if (global === '전역') {
+if (global === "전역") {
   // 무조건 실행된다
 
-  var global = '지역 변수'; // 한번 더 변수를 선언하고 할당해준 것이다
+  var global = "지역 변수"; // 한번 더 변수를 선언하고 할당해준 것이다
 
   console.log(global); // 지역 변수
 }
@@ -82,12 +82,12 @@ console.log(global); // 지역 변수
 - let은 블록 레벨 스코프를 가진다
 
 ```js
-let global = '전역';
+let global = "전역";
 
-if (global === '전역') {
+if (global === "전역") {
   // 무조건 실행된다
 
-  let global = '지역 변수';
+  let global = "지역 변수";
 
   console.log(global); // 지역 변수
 }
@@ -98,12 +98,12 @@ console.log(global); // 전역 변수
 - 블록만 선언해도 동일한 결과 나온다
 
 ```js
-let global = '전역';
+let global = "전역";
 
 {
   // 무조건 실행된다
 
-  let global = '지역 변수';
+  let global = "지역 변수";
 
   console.log(global); // 지역 변수
 }
@@ -149,7 +149,7 @@ consolo.log(person) // 두 객체 확인할 수 있다
 
 ```
 
-- 예시를 통해 const는 재할만 불가능하고 객체, 배열 같은 레퍼런스 객체를 조작할 때는 문제가 없다는 것을 알 수 있다
+- 예시를 통해 const는 재할당만 불가능하고 객체, 배열 같은 레퍼런스 객체를 조작할 때는 문제가 없다는 것을 알 수 있다
 
 ## 7. 전역 공간 사용 최소화
 
@@ -193,7 +193,7 @@ consolo.log(person) // 두 객체 확인할 수 있다
 ```js
 // index1.js
 
-var globalVar = 'global';
+var globalVar = "global";
 
 console.log(globalVar);
 console.log(window.globalVar);
@@ -216,14 +216,14 @@ console.log(globalVar); // 'global'
 ```js
 // index1.js
 
-var globalVar = 'global';
+var globalVar = "global";
 
 console.log(globalVar);
 
 // 1초후에 콘솔 출력된다
-window.setTimeout(() => console.log('1초'), 1000);
+window.setTimeout(() => console.log("1초"), 1000);
 
-var setTimeout = 'setTimeout';
+var setTimeout = "setTimeout";
 ```
 
 - 이 코드를 아래와 같이 수정해준다
@@ -231,15 +231,15 @@ var setTimeout = 'setTimeout';
 ```js
 // index1.js
 
-var globalVar = 'global';
+var globalVar = "global";
 
 console.log(globalVar);
 
-var setTimeout = 'setTimeout';
+var setTimeout = "setTimeout";
 
-// 이런식으로 변수도 선언하고 함수도 선언할 수 있따
-function seTimeout() {
-  console.log('function');
+// 이런식으로 변수도 선언하고 함수도 선언할 수 있다.
+function setTimeout() {
+  console.log("function");
 }
 ```
 
@@ -248,14 +248,16 @@ function seTimeout() {
 ```js
 // index2.js
 
-window.setTimeout(() => console.log('1초'), 1000); // 실행 안된다, 위애 setTimeout 변수가 string으로 되었기 때문
+window.setTimeout(() => console.log("1초"), 1000); // 실행 안된다, 위애 setTimeout 변수가 string으로 되었기 때문
 ```
 
 - 이렇게 코드 작성해도 콘솔에는 에러가 발생하지 않는다. (실행하면 에러 발생)
 
 - 그 이유는 브라우저 web api이기 때문에 자바스크립트 코드를 작성하는 이 단계에서는 에러가 발생하지 않는 것
 
-- 또 다른 예시
+<br/>
+
+- 또 다른 예시는 아래코드이다.
 
 ```js
 // index1.js
@@ -291,7 +293,7 @@ for (var index = 0; index < array.length; index++) {
 
   3. window, global을 조작하지 않는다
 
-  4. const, let 만 사용해도 많은 부분이 해결 될 수 잇따
+  4. const, let 만 사용해도 많은 부분이 해결 될 수 있다.
 
   5. 즉시실행함수, 모듈, 클로저 등이 있는데, 이렇게 스코프를 나누는 방법에 대해서 고민해볼 필요가 있다
 
@@ -299,21 +301,21 @@ for (var index = 0; index < array.length; index++) {
 
 - 임시변수란
 
-  - 어느 특정 공간 스코프아 안에서 전역변수처럼 사용되는 것
+  - 어느 특정 공간 스코프 안에서 전역변수처럼 사용되는 것
 
 - 아래 코드의 result도 함수가 커지면 전역 공간이나 다름 없는 상황이 생길 수도 있다
 
 - 임시객체들이 매우 위험할 수 있다
 
-- 잘게 함수를 쪼갣나면 문제가 없겠지만, 이렇게 임시변수를 만들게 되면 문제가 생길 수 있다
+- 잘게 함수를 쪼갠나면 문제가 없겠지만, 이렇게 임시변수를 만들게 되면 문제가 생길 수 있다
 
 ```js
 function getElements() {
   const result = {}; // 임시 객체, 임시 객체가 생기는 순간 접근해서 조작하고 싶은 유혹이 생길 수 있다
 
-  result.title = document.querySelector('.title');
-  result.text = document.querySelector('.text');
-  result.value = document.querySelector('.value');
+  result.title = document.querySelector(".title");
+  result.text = document.querySelector(".text");
+  result.value = document.querySelector(".value");
 
   return result;
 }
@@ -344,9 +346,9 @@ function getDateTime(targetDate) {
   let day = targetDate.getDate();
   let hour = targetDate.Hours();
 
-  month = month > 10 ? month : '0' + month;
-  day = day > 10 ? day : '0' + day;
-  hour = hour > 10 ? hour : '0' + hour;
+  month = month > 10 ? month : "0" + month;
+  day = day > 10 ? day : "0" + day;
+  hour = hour > 10 ? hour : "0" + hour;
 
   return { month, day, hour };
 }
@@ -367,9 +369,9 @@ function getDateTime(targetDate) {
   const hour = targetDate.Hours();
 
   return {
-    month: (month = month > 10 ? month : '0' + month),
-    day: (day = day > 10 ? day : '0' + day),
-    hour: (hour = hour > 10 ? hour : '0' + hour),
+    month: (month = month > 10 ? month : "0" + month),
+    day: (day = day > 10 ? day : "0" + day),
+    hour: (hour = hour > 10 ? hour : "0" + hour),
   };
 }
 ```
@@ -381,25 +383,25 @@ function getCurrentDateTime() {
   const currentDateTime = getDateTime(new Date());
 
   return {
-    month: currentDateTime.month + '분 전',
-    day: currentDateTime.day + '분 전',
-    hour: currentDateTime.hour + '분 전',
+    month: currentDateTime.month + "분 전",
+    day: currentDateTime.day + "분 전",
+    hour: currentDateTime.hour + "분 전",
   };
 }
 ```
 
 - 함수를 한번 더 추상화 했기 때문에 재사용할 수 있는 것
 
-- 그리고 함수 내부에 만약 computedKrDate() 라는 함수가 사용되어야 한다면 아래처럼도 사용할 수 있다
+- 그리고 함수 내부에 만약 `computedKrDate()` 라는 함수가 사용되어야 한다면 아래처럼도 사용할 수 있다
 
 ```js
 function getCurrentDateTime() {
   const currentDateTime = getDateTime(new Date());
 
   return {
-    month: computedKrDate(currentDateTime.month) + '분 전',
-    day: computedKrDate(currentDateTime.day) + '분 전',
-    hour: computedKrDate(currentDateTime.hour) + '분 전',
+    month: computedKrDate(currentDateTime.month) + "분 전",
+    day: computedKrDate(currentDateTime.day) + "분 전",
+    hour: computedKrDate(currentDateTime.hour) + "분 전",
   };
 }
 ```
@@ -465,11 +467,13 @@ function getSomeValue(params) {
 
 - 호이스팅은 선언과 할당이 분리된 것
 
-- 언제 ? 바로 런타임시
+- 언제? -> 바로 런타임시
 
 - 런타임시는 동작할 때를 말한다
 
-- 코드를 작성할 때는, 이 스코프는 이렇게 동작할 것이라고 하는데 런타임때는 예상한 스코프 대로 동작하지 않을 수 있고, 그 예시가 바로 호이스팅
+- 코드를 작성할 때는 이 스코프는 이렇게 동작할 것이라고 하는데
+
+- 런타임때는 예상한 스코프 대로 동작하지 않을 수 있고, 그 예시가 바로 호이스팅이다.
 
 - 호이스팅은 var로 선언한 변수가 초기화가 제대로 되지 않았을 때 undefined로 최상단에 끌어올려줄 수 있는 것
 
@@ -522,7 +526,7 @@ function duplicatedVar() {
 }
 ```
 
-- 아래는 변수를 선언하고 함수를 할당한 예시, 동작한다
+- 아래는 변수를 선언하고 함수를 할당한 예시로 함수가 정상적으로 동작한다
 
 ```js
 var sum;
@@ -534,7 +538,7 @@ sum = function () {
 console.log(sum()); //3
 ```
 
-- 아래도 동작하는데, 함수도 호이스팅 되기 때문이다
+- 아래처럼 코드를 작성하도 동작하는데 함수도 호이스팅 되기 때문이다
 
 ```js
 var sum;
@@ -571,7 +575,7 @@ function sum() {
 ```js
 var sum = 11;
 
-console.log(); // 11
+console.log(sum); // 11
 
 function sum() {
   return 1 + 2;

@@ -31,7 +31,7 @@
   - 래퍼 객체의 예시도 있다.
 
     ```js
-    const str = new String('문자열');
+    const str = new String("문자열");
 
     typeof str; // 'object'
     ```
@@ -56,10 +56,10 @@ function Person(name, age) {
   this.age = age;
 }
 
-const p = new Person('kim', 32);
+const p = new Person("kim", 32);
 
 const x = {
-  name: 'test',
+  name: "test",
   age: 99,
 };
 
@@ -69,7 +69,7 @@ x instanceof Person; // false
 
 - 여기의 크나큰 함정이 있는데 다음과 같다
 
-- 레퍼런스이기 때문에 최상위는 오브젝트 이기 때문에 타임 검사가 어려워 진다
+- 레퍼런스이기 때문에 최상위는 Object 객체 이기 때문에 타입 검사가 어려워 진다
 
 ```js
 const arr = [];
@@ -93,7 +93,7 @@ date instanceof Object; // true
 
 - 아래처럼 해결할 수 있다
 
-- 래퍼객체 까지 감별할 수 있다
+  - 래퍼객체 까지 감별할 수 있다
 
 ```js
 Object.prototype.toString.call(arr);
@@ -104,11 +104,12 @@ Object.prototype.toString.call(date);
 - 구글에 검사할 때,아래와 같이 검색해서 확인해본다
 
   - javascript is array
+
   - javascript is function
 
 - 자바스크립트 언어는 동적인 타입을 가지는 언어이기 때문에 타입 검사도 어렵다
 
-- 그래서 검색을 해서 상황에 맞는 타입 검사 방법을 검색해서 적용해준다 ㄴ
+- 그래서 검색을 해서 상황에 맞는 타입 검사 방법을 검색해서 적용해준다
 
 - 일일이 외울 필요는 없다
 
@@ -155,41 +156,35 @@ undefined === null; // false
 
 - null 같은 경우 명시적으로 값이 없다는 것을 표현한 것
 
----
-
-## 12. eqeq 줄이기
+## 12. eqeq(==) 줄이기
 
 - eqeq는 자바스크립트의 동등연산자를 의미한다
 
 - `==`동등연산자 사용하면 암묵적인 형변환이 일어난다. 따라서 엄격한 동등 연산자 `===`를 사용한다
 
 ```js
-'1' == 1; // true
+"1" == 1; // true
 
 1 == true; // true
 ```
-
----
 
 ## 13. 형변환 주의하기
 
 - 명시적 형변환을 하도록 한다
 
 ```js
-11 + 'ㄹㄹㄹ'; // '11ㄹㄹㄹ'
+11 + "ㄹㄹㄹ"; // '11ㄹㄹㄹ'
 
-!!'ㄴ'; // true
+!!"ㄴ"; // true
 
-!!''; //false
+!!""; //false
 
 // 암묵적이 아닌, 명시적 변환
-parsInt('9.999', 10); // 9,
+parsInt("9.999", 10); // 9,
 // 두번째 인자는  몇진수로 할지
 // 뒤에 넣는 값을 지정하지 않으면 10진수는 기본 값이 아니다
 // 따라서 10진수라는 것을 지정해준다
 ```
-
----
 
 ## 14. isNaN
 
@@ -198,7 +193,7 @@ parsInt('9.999', 10); // 9,
 - 이러한 간극에서 생기는 소수점을 다루기 위해, 자바스크립트에서는 IEEE 754을 기반으로 부동소수점 방식을 사용해서 해결하려고 한다
 
 ```js
-Number.MAX_SAFE_INTEGER; // 가자 큰 수
+Number.MAX_SAFE_INTEGER; // 가장 큰 수
 
 Number.isInteger; // 검사
 
@@ -208,7 +203,7 @@ typeof isNaN; // object
 
 isNaN(123); // false -> 숫자가 숫자가 아니다 -> 숫자가 맞다,  그래서 false
 
-isNaN(123 + '테스트'); // true, 느슨한 검사
+isNaN(123 + "테스트"); // true, 느슨한 검사
 ```
 
 - js에서도 이렇게 문제가 많은 것을 확인하고 ES2015+부터 폴리필이라는 것을 만들었다
@@ -216,6 +211,6 @@ isNaN(123 + '테스트'); // true, 느슨한 검사
 - 아래처럼 Number를 한번만 붙여주면 엄격한 검사를 한다
 
 ```js
-Number.isNaN(123 + '테스트'); // false, 엄격한 검사
+Number.isNaN(123 + "테스트"); // false, 엄격한 검사
 // 이렇게 Number를 붙여 준다
 ```

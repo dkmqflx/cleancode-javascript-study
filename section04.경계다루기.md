@@ -1,4 +1,4 @@
-### 15. min - max
+## 15. min - max
 
 1.  최소값와 최대값을 다룬다
 
@@ -40,19 +40,22 @@ isAdult(30);
 - 아래처럼 변수명을 정해주면 미만, 초과를 변수명만 보고도 알 수 있다.
 
 ```js
-const MIN_IN_NUMBER = 1;
-const MAX_IN_NUMBER = 45;
+const MIN_IN_NUMBER = 1; // 1이 포함이 된다
+const MAX_IN_NUMBER = 45; // 45가 포함이 된다
+
+const MAX_LIMIT_NUMBER = 45; // 45가 포함이 되지 않는다
 ```
 
-<br/>
-
-### 16. begin - end
+## 16. begin - end
 
 ```js
 /**
  * begin - end
  *
  * 경계를 포함하지만 제외하는 경우
+ * begin : 동일한 값, 고정됨
+ * end: : 다른 값, 포함되거나 포함되지 않음
+ *
  * 즉, 시작은 포함되지만 끝은 포함되지 않을 수도 있는 경우 begin, end로 변수명을 짓는다
  * 많은 date picker 라이브러리들도 이런식으로 이름을 짓는다
  * 아래 함수를 사용해서 달력에서 숙박 예약을 하는 경우, 시작 날짜는 고정되지만 끝나는 날짜는 고정되지 않는
@@ -65,9 +68,7 @@ function reservationDate(beginDate, endDate) {
 reservationDate("YYYY-MM-DD", "YYYY-MM-DD");
 ```
 
-<br/>
-
-### 17. first - last
+## 17. first - last
 
 ```js
 /**
@@ -88,9 +89,7 @@ function getStudents(first, last) {
 getStudents("포코", "현석");
 ```
 
-<br/>
-
-### 18. prefix - suffix
+## 18. prefix - suffix
 
 - js의 `get`, `set`
 
@@ -98,26 +97,7 @@ getStudents("포코", "현석");
 
 - 단일 파일만 있는 경우, `폴더이름`, 복수 파일이 있는 경우 `폴더이름s` 도 suffix의 예시
 
-```js
-/**
- * start - stop
- *
- * 포함된 양 끝을 의미한다.
- * 부터 ~~~ 까지
- */
-
-const students = ["포코", "존", "현석"];
-
-function getStudents(first, last) {
-  // ...some code
-}
-
-getStudents("포코", "현석");
-```
-
-<br/>
-
-### 19. 매개변수의 순서가 경계다
+## 19. 매개변수의 순서가 경계다
 
 - 매개변수의 순서만 잘 지켜도 경계가 정해진다
 
