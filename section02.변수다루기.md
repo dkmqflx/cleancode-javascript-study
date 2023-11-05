@@ -136,7 +136,7 @@ person.age = '28'
 
 ```js
 
-// 선언과 동시에 할당이 일워지고 있다
+// 선언과 동시에 할당이 이뤄지고 있다
 const person =[ {
   name:'kim',
   age:'32';
@@ -183,8 +183,8 @@ consolo.log(person) // 두 객체 확인할 수 있다
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <script src="./iindex1.js"></script>
-    <script src="./iindex2.js"></script>
+    <script src="./index1.js"></script>
+    <script src="./index2.js"></script>
   </head>
   <body></body>
 </html>
@@ -196,7 +196,7 @@ consolo.log(person) // 두 객체 확인할 수 있다
 var globalVar = "global";
 
 console.log(globalVar);
-console.log(window.globalVar);
+console.log(window.globalVar); // 전역 객체인 window에 우리가 선언한 globalVar이라는 변수가 등록된다.
 ```
 
 - `window.` 해보면 globalVar가 있는 것을 확인할 수 있다
@@ -220,13 +220,21 @@ var globalVar = "global";
 
 console.log(globalVar);
 
-// 1초후에 콘솔 출력된다
-window.setTimeout(() => console.log("1초"), 1000);
-
 var setTimeout = "setTimeout";
 ```
 
-- 이 코드를 아래와 같이 수정해준다
+- index1.js 파일에서 기존에 window 객체에 있는 setTimeout 함수에 "setTimeout"이라는 문자열을 새로운 할당하면
+
+- 아래와 같이 window 객체에서 setTimeout을 호출했을 때 에러가 발생한다.
+
+```js
+// index2.js
+
+// 에러 발생
+window.setTimeout(() => console.log("1초"), 1000);
+```
+
+- 아래처럼 setTimeout이라는 변수 또는 함수를 선언하더라도 에러가 발생하지 않는다
 
 ```js
 // index1.js
@@ -235,20 +243,12 @@ var globalVar = "global";
 
 console.log(globalVar);
 
-var setTimeout = "setTimeout";
+var setTimeout = "setTimeout"; // 변수 할당
 
 // 이런식으로 변수도 선언하고 함수도 선언할 수 있다.
 function setTimeout() {
   console.log("function");
 }
-```
-
-- index2도 아래처럼 수정해준다
-
-```js
-// index2.js
-
-window.setTimeout(() => console.log("1초"), 1000); // 실행 안된다, 위애 setTimeout 변수가 string으로 되었기 때문
 ```
 
 - 이렇게 코드 작성해도 콘솔에는 에러가 발생하지 않는다. (실행하면 에러 발생)
@@ -268,7 +268,7 @@ for (var index = 0; index < array.length; index++) {
   const element = arr[index];
 }
 
-// window. 해보면 index가 3인 것을 확인할 수 있다
+// window.arr 해보면 index가 3인 것을 확인할 수 있다
 ```
 
 - 즉, var인 index가 전역 스코프에서 확인될 수 있다
@@ -338,7 +338,7 @@ function getElements() {
 
 - 아래는 date 객체를 사용하는 함수
 
-- 임시 변수가 있는 이런 함수도 문제 생길 수 있다
+- let이라는 임시 변수가 있는 이런 함수도 문제 생길 수 있다
 
 ```js
 function getDateTime(targetDate) {
@@ -358,7 +358,11 @@ function getDateTime(targetDate) {
 
 - 무엇인가 날짜에 대한 요구사항이 생길 때, 함수를 추가로 만드느냐 혹은 함수를 유지보수 하며 수정할 것이냐에 따른 고민을 할 수 있다
 
-- 함수를 100군데 이상 사용되는 것처럼 여러군데에서 사용될 수 있기 때문에, 항상 바로 반환할 수 있는 형태로 함수를 바꿔주는 것이 좋다
+- 만약 이 함수를 수정하기로 한다면, 기존에 함수가 여러군데에서 이미 사용되고 있을 수 있기 때문에 예상치 못한 문제가 발생할 수 있다.
+
+- 그렇기 때문에 항상 바로 반환할 수 있는 형태로 함수를 바꿔주는 것이 좋다
+
+- let으로 한다는 것은 수정 및 재할당이 가능하다는 뜻이기 때문에 const로 바꿔준다.
 
 - 즉, 하나의 역할만 하는 함수로 바꿔준다
 
@@ -406,6 +410,12 @@ function getCurrentDateTime() {
 }
 ```
 
+- let과 같은 임시변수를 사용하게 되면, 수정사항이 생겼을 때 함수 내부를 수정하고자 하는 유혹이 생길 수 있다.
+  
+- 하지만 const를 사용해서 바로 값을 반환 하는 형태로 함수를 만들면
+
+- 수정사항이 생겼을 때 새로운 함수를 만들고, 기존에 정의된 함수에 필요한 기능이 있는 함수를 추가하는 방식으로, 기존에 만든 함수를 재사용할 수 있다.
+
 - 아래 함수와 같이 하나의 역할만 함수를 만들어주어서 임시변수의 유혹을 받지 않도록 한다
 
 ```js
@@ -423,10 +433,14 @@ function getRandomNumber(min, max) {
 - 따라서 임시 변수를 사용하지 않는 방법을 고민한다
 
 ```js
-// 아래 코드는 예시
+// 아래 코드는 예시로,
+// 값을 재할당하고, 조건문에서 무엇인가 처리되는 로직이 있기 때문에 어떠한 값이 리턴되는지 한눈에 알아보기 힘들다
+
 function getSomeValue(params) {
-  let temp = '';
+  let tempVal = '';
+
   for (let i = 0; i < array.length; i++) {
+    // temp에 계속 무엇인가 넣는다
     temp = array[index];
     temp = array[index];
     temp = array[index];
@@ -434,10 +448,14 @@ function getSomeValue(params) {
   }
 
   if(temp ??){
+    tempVal = ??
 
   }else if (temp ??){
 
+    temp+=??
+
   }
+  return temp
 }
 ```
 
@@ -457,9 +475,9 @@ function getSomeValue(params) {
 
   - 그리고 바로 반환하는 것
 
-  - 고차 함수르 사용하는 방법도 있다
+  - 고차 함수를 사용하는 방법도 있다
 
-    - 고차함수는 map, filter, reduce
+    - 고차함수는 map, filter, reduce 등이 있다.
 
   - 선언형 코드로 바꿔보는 연습을 한다
 
@@ -485,7 +503,7 @@ function getSomeValue(params) {
 var global = 0;
 
 function outer() {
-  console.log(global); // undefined, 선언과 할당이 분리된 상황, var은 함수 레벨 스코프 가지기 때문에 전역 변수의 0 적용 안됨
+  console.log(global); // undefined, 선언과 할당이 분리된 상황, var은 함수 레벨 스코프 가지기 때문에 전역 변수 global의 0 적용 안됨
   var global = 5;
 
   function inner() {
@@ -504,7 +522,7 @@ function outer() {
 outer();
 ```
 
-- 아래와 같은 상황으로, 선언과 할당 부분이 메모리 공간을 선언하기 전에 미리 할당하기 때문에 이러한 일이 발생하는 것
+- 아래와 같은 상황으로 선언과 할당 부분이, 메모리 공간을 선언하기 전에 미리 할당하기 때문에 이러한 일이 발생하는 것
 
 ```js
 var global;
@@ -518,7 +536,7 @@ global = 5;
 function duplicatedVar() {
   var a;
 
-  console.log(a); // undefined
+  console.log(a); // undefined, 선언만 했으니까
 
   var a = 100;
 
@@ -535,15 +553,16 @@ sum = function () {
   return 1 + 2;
 };
 
-console.log(sum()); //3
+console.log(sum()); // 3
 ```
 
 - 아래처럼 코드를 작성하도 동작하는데 함수도 호이스팅 되기 때문이다
 
 ```js
-var sum;
+var sum; 
 
 console.log(sum()); // 3
+console.log(typeof sum) // function, 아래 선언된 함수가 변수 sum을 덮어버리기 때문
 
 function sum() {
   return 1 + 2;
@@ -572,10 +591,12 @@ function sum() {
 
 - 이 문제를 해결할 수 있는 방법은, 변수 선언 -> 할당 -> 초기화 완료 -> 정확한 분리를 하는 것이다
 
+- 즉, 변수를 선언할 때 값을 할당해서 초기화를 완료해주는 것
+
 ```js
 var sum = 11;
 
-console.log(sum); // 11
+console.log(sum); // 11, 바로 위에 있는 변수가 출력된다
 
 function sum() {
   return 1 + 2;
