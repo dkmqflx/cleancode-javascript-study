@@ -69,7 +69,7 @@ x instanceof Person; // false
 
 - 여기의 크나큰 함정이 있는데 다음과 같다
 
-- 레퍼런스이기 때문에 최상위는 Object 객체 이기 때문에 타입 검사가 어려워 진다
+- 레퍼런스 타입 때문에 최상위는 Object 객체이고, 이러한 이유로 타입 검사가 어려워진다
 
 ```js
 const arr = [];
@@ -91,14 +91,14 @@ func instanceof Object; // true
 date instanceof Object; // true
 ```
 
-- 아래처럼 해결할 수 있다
+- 아래처럼 `Object.prototype.toString.call`에 인자를 전달해주는 방식으로 해결할 수 있다
 
-  - 래퍼객체 까지 감별할 수 있다
+  - 래퍼객체까지 감별할 수 있다
 
 ```js
-Object.prototype.toString.call(arr);
-Object.prototype.toString.call(func);
-Object.prototype.toString.call(date);
+Object.prototype.toString.call(arr); // '[object Array]'
+Object.prototype.toString.call(func); // '[object Function]'
+Object.prototype.toString.call(date); // '[object Date]'
 ```
 
 - 구글에 검사할 때,아래와 같이 검색해서 확인해본다
@@ -115,7 +115,7 @@ Object.prototype.toString.call(date);
 
 - typeof는 무적이 아니다
 
-- instance가 있다는 것
+- instance가 있다는 것 알아둔다.
 
 ---
 
@@ -132,7 +132,7 @@ null === false; // false
 
 !null === true; // true
 
-// null => 수학적으로는 0
+// null => 수학적으로는 0으로 취급한다
 null + 123; // 123
 
 // 선언했지만 값은 정의되지 않고 할당 X
@@ -151,6 +151,8 @@ undefined === null; // false
 ```
 
 - 이렇게 혼동되는 부분이 많기 때문에 null 또는 undefined을 어떻게 사용할지 컨벤션을 정해주는 것이 좋다
+
+  - ex. 빈 값에 undefined를 사용할지 아니면 null을 사용할지
 
 - undefined, null은 값이 없거나 정의되지 않은 것
 
