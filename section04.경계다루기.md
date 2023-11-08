@@ -12,7 +12,7 @@ function genRandomNumber(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-// 상수로 미리 만들어주는 것이 좋다
+// 최소 값과 최대 값에 대한 상수를 미리 만들어주는 것이 좋다
 const MIN_NUMBER = 1;
 const MAX_NUMBER = 45;
 
@@ -22,7 +22,9 @@ genRandomNumber(MIN_NUMBER, MAX_NUMBER);
 
 - 아래처럼 최소값과 최대값의 포함 여부를 정하는 것이 중요하다
 
-- 즉, 모호하지 않도록 컨벤션을 정해주는 것이 좋다.
+- 모호하지 않도록 컨벤션을 정해주는 것이 좋다.
+
+- 즉, MIN, MAX 다룰 때 항상 이상, 이하 인지 또는 초과, 미만 인지에 대한 컨벤션을 정해준다.
 
 ```js
 const MAX_AGE = 20;
@@ -58,7 +60,7 @@ const MAX_LIMIT_NUMBER = 45; // 45가 포함이 되지 않는다
  *
  * 즉, 시작은 포함되지만 끝은 포함되지 않을 수도 있는 경우 begin, end로 변수명을 짓는다
  * 많은 date picker 라이브러리들도 이런식으로 이름을 짓는다
- * 아래 함수를 사용해서 달력에서 숙박 예약을 하는 경우, 시작 날짜는 고정되지만 끝나는 날짜는 고정되지 않는
+ * 아래 함수를 사용해서 달력에서 숙박 예약을 하는 경우, 시작 날짜는 고정되지만 끝나는 날짜는 고정되지 않는다.
  */
 
 function reservationDate(beginDate, endDate) {
@@ -86,7 +88,7 @@ function getStudents(first, last) {
   // ...some code
 }
 
-getStudents("포코", "현석");
+getStudents("포코", "현석"); // 포코와 현석은 양 끝으로 포함된다.
 ```
 
 ## 18. prefix - suffix
