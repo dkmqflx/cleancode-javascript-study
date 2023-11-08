@@ -165,9 +165,20 @@ undefined === null; // false
 - `==`동등연산자 사용하면 암묵적인 형변환이 일어난다. 따라서 엄격한 동등 연산자 `===`를 사용한다
 
 ```js
-"1" == 1; // true
+"1" == 1; // true, 느스한 검사 -> 형변환
 
 1 == true; // true
+
+// DOM에서 value 가져와서 비교할 때도 == 대신 형 변환을 사용한다 
+
+//bad
+e.target.value == 1
+
+// good
+Number(e.target.value) === 1
+
+// valueAsNumber 사용해서 number 타입으로 가져올 수 있다
+// e.target.valueAsNumber === 1
 ```
 
 ## 13. 형변환 주의하기
@@ -175,7 +186,7 @@ undefined === null; // false
 - 명시적 형변환을 하도록 한다
 
 ```js
-11 + "ㄹㄹㄹ"; // '11ㄹㄹㄹ'
+11 + "ㄹㄹㄹ"; // '11ㄹㄹㄹ', 문자열로 변환된다 
 
 !!"ㄴ"; // true
 
@@ -192,18 +203,18 @@ parsInt("9.999", 10); // 9,
 
 - 숫자는 10진수이더라도 컴퓨터는 2진수
 
-- 이러한 간극에서 생기는 소수점을 다루기 위해, 자바스크립트에서는 IEEE 754을 기반으로 부동소수점 방식을 사용해서 해결하려고 한다
+- 이러한 간극에서 생기는 소수점을 다루기 위해, 자바스크립트에서는 [IEEE 754](https://ko.wikipedia.org/wiki/IEEE_754)을 기반으로 부동소수점 방식을 사용해서 해결하려고 한다
 
 ```js
-Number.MAX_SAFE_INTEGER; // 가장 큰 수
+Number.MAX_SAFE_INTEGER; // 가장 크게 표시할 수 있는 정수
 
-Number.isInteger; // 검사
+Number.isInteger(); // 주어진 값이 정수 인지 판별
 
-isNaN; // is Not A Number, 숫자가 아니다
+isNaN(); // is Not A Number, 숫자가 아니다
 
 typeof isNaN; // object
 
-isNaN(123); // false -> 숫자가 숫자가 아니다 -> 숫자가 맞다,  그래서 false
+isNaN(123); // false -> 숫자가 아닌 것이 아니다. -> 숫자가 맞다,  그래서 false
 
 isNaN(123 + "테스트"); // true, 느슨한 검사
 ```
@@ -214,5 +225,5 @@ isNaN(123 + "테스트"); // true, 느슨한 검사
 
 ```js
 Number.isNaN(123 + "테스트"); // false, 엄격한 검사
-// 이렇게 Number를 붙여 준다
+// 이렇게 Number를 붙여셔 검사를 해준다.
 ```
