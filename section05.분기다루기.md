@@ -2,6 +2,12 @@
 
 - 개발자에게 문법이 중요한 이유는, 개발자는 프로그래밍 언어로 개발을 하기 때문이다
 
+- 리액트의 JSX는 바벨을 만나면 두번째 코드처럼 트랜스파일링 된다.
+
+- 아래 코드를 보면 id="msg" 부분이 {id: "msg"}라는 객체로 바뀐 것을 확인할 수 있다.
+
+- 이렇게 객체로 바뀌기 때문에 객체의 값으로 식, 그리고 값을 넣을 수는 있지만 문은 넣을 수 없다.
+
 ```js
 // This JSX:
 ReactDOM.render(<div id="msg">Hello World!</div>, mountNode);
@@ -13,17 +19,24 @@ ReactDOM.render(
 );
 ```
 
+- 코드를 아래처럼 수정해서 보면 이를 확인할 수 있다.
+  
 ```js
 
 // This JSX:
 <div id={if (condition) { 'msg' }}>Hello World!</div>
 
 // Is transformed to this JS:
+// 아래 코드는 에러가 발생하는데 그 이유는 if 문이기 때문
 // if 문을 객체의 값으로 넣으면 에러가 발생한다
 React.createElement("div", {id: if (condition) { 'msg' }}, "Hello World!");
 
+// 아래 코드처럼 객체에 if 문을 넣으면 에러가 발생하는 것과 같다
+// 즉, : 오른쪽에 값이 들어가야 하는데 문이 들어가니까 에러가 발생하는 것
+const object = {id: if (condition) { 'msg' }}
+
 // 하지만 아래 코드는 동작하는데 그 이유는 삼항연사자 이기 때문
-// 표현식은 값으로 귀결되는 식이기 때문
+// 삼항연산으로 연산이 된 다음 값으로 귀결되는데, 표현식은 값으로 귀결되는 "식"이기 때문
 ReactDOM.render(<div id={condition ? 'msg' : null}>Hello World!</div>, mountNode);
 
 ```
@@ -60,7 +73,7 @@ function ReactComponent() {
 }
 ```
 
-- 아래 로직은 좋지 않다.
+- 아래 로직은 좋지 않은데 임시변수를 사용하고 있기 때문이다.
 
 - 즉시 실행함수로 감싸고 있고 for문을 사용해서 임시 변수 안에 값을 누적하고 있다.
 
@@ -167,13 +180,13 @@ function example() {
 }
 ```
 
-- 차라리 switch를 고려하는 것이 더 나은 방식이다.
+- 이렇게 하기 보다는 차라리 switch를 고려하는 것이 더 나은 방식이다.
 
 ```js
 
 function example() {
 
-  const temp // 여기 임시변수에 값을 담고 아래 switch를 통해서 처리한다
+  const temp = condition; // 여기 임시변수에 값을 담고 아래 switch를 통해서 처리한다
 
   switch(key){
     case value:
@@ -186,9 +199,14 @@ function example() {
 
 ```
 
-- 아래처럼 사람을 위해서 `()`를 묶어서 더 알아보기 쉽게 코드를 작성한다
+- 아래처럼 사람을 위해서 `()`를 묶어서 더 알아보기 쉽게 코드를 작성할 수 도 있다.
 
 ```js
+
+// as-is
+const example = condition1 ? a === 0 ? "zero" : "positive" : "negative";
+
+// to-be
 const example = condition1 ? (a === 0 ? "zero" : "positive") : "negative";
 ```
 
@@ -219,7 +237,23 @@ function alertMessage(isAdult) {
 
 - 따라서 이런 경우에는 `if else`를 사용하는 것이 더 적절하다고 생각
 
+```js
+function alertMessage(isAdult) {
+  if(isAdult){
+   alert("입장이 가능합니다.")
+  }else{
+   alert("입장이 불가능합니다.");
+  } 
+}
+```
+
 - 아니면 함수내에서 return으로 문자열을 반환하도록 코드를 수정하는 것도 하나의 방법
+
+ ```js
+function alertMessage(isAdult) {
+  return isAdult ? "입장이 가능합니다." : "입장이 불가능합니다."
+}
+```
 
 ## 22. Truth & Falsy
 
@@ -236,12 +270,29 @@ if (boolean === true) {
 }
 ```
 
+- 위 코드들은 아래와 동일한데 그 이유는 조건 문 안의 값들이 truthy 이기 때문
+
+- ```js
+if ("string".length ) {
+}
+
+if (10) {
+}
+
+if (boolean) {
+}
+```
+
+- 공식문서에서 [truthy](https://developer.mozilla.org/ko/docs/Glossary/Truthy), [falsy](https://developer.mozilla.org/ko/docs/Glossary/Falsy)에 대해서 자세히 볼 수 있다.
+
+- null과 undefined로 조건을 확인하는 코드가 있을 때 다음과 같이 falsy를 사용해서 개선할 수 있다.
+
 ```js
 function printName(name) {
   // if (name === undefined || name === null) {
   //   return "사람이 없네요";
   // }
-  // 대신 아래처럼 코드를 수정할 수 있다
+  // 위처럼 처리하는 대신 아래처럼 코드를 수정할 수 있다
   if (!name) {
     return "사람이 없네요";
   }
@@ -250,29 +301,10 @@ function printName(name) {
 }
 ```
 
-```js
-/**
- * Truthy (참 같은 값)
- */
-function SomeComponent({ isShowHeader }) {
-  return (
-    <div>
-      {isShowHeader ? <Header /> : null}
-      <Body />
-    </div>
-  );
-}
-
-function SomeComponent({ content }) {
-  return (
-    <div>
-      {content.length > 0 ? <MessageList messages={props.messages} /> : null}
-    </div>
-  );
-}
-```
 
 ## 23. 단축 평가 (short-circut evaluation)
+
+- 아래 식의 AND와 OR 연산자 예시를 통해 어떻게 오른쪽 값으로 도달하는지 알 수 있다.
 
 ```js
 // AND
@@ -286,6 +318,8 @@ false || false || "도달 O";
 true || true || "도달 X";
 ```
 
+- 아래와 같은 코드가 있을 때 || 연산자를 사용해서 코드를 더 깔끔하게 작성할 수 있다.
+
 ```js
 function fetchData() {
   // if (state.data) {
@@ -296,8 +330,14 @@ function fetchData() {
 
   // default value가 있는 경우 위 코드를 아래처럼 OR 연산자를 사용해서 개선할 수 있다
   return state.data || "Fetdching...";
+
+  // 아래처럼 삼항 연산자를 사용할 필요가 없다
+  return state.data ? state.data : "Fetdching...";
+
 }
 ```
+
+- 아래 코드도 || 연산자를 사용해서 개선할 수 있다.
 
 ```js
 function favoriteDog(someDog) {
@@ -316,6 +356,8 @@ function favoriteDog(someDog) {
 }
 ```
 
+- 중첩되어 있는 경우에도 && 와 같은 연산자를 사용해서 개선할 수 있다.
+  
 ```js
 function getActiveUserName(user, isLogin) {
   // if (isLogin) {
