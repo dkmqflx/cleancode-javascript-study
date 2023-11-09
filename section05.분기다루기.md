@@ -408,6 +408,8 @@ if (x >= 0) {
 
 - 아래 코드를 보면 else 안에서 if가 실행되는 것을 알 수 있다.
 
+- 즉, 제일 처음 if를 실행하고 그 다음번의 if를 실행하고 그 다음 else를 실행하게 된다
+
 - 그렇기 때문에 의식적으로 else if를 사용하지 않거나 switch로 대신하는 것이 좋다
 
 ```js
@@ -766,7 +768,17 @@ const Root = () => (
 );
 ```
 
+- [Swiper React Component](https://swiperjs.com/react#swiper-props) 공식문서를 보아도 Default 처리가 되어 있는 것을 확인할 수 있는데
+
+- 이처럼 라이브러리들도 default 처리를 해주는 것을 중요하게 생각한다. 
+
 - parseInt() 함수에서도 두 번째 매개변수(radix)의 기본값은 10이 아니다.
+
+<br/>
+
+- [공식문서](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/parseInt) 에도 아래처럼 나와있다
+
+> string의 진수를 나타내는 2부터 36까지의 정수입니다. 주의하세요. 기본 값이 10이 아닙니다! Number 자료형이 아닌 경우 Number로 변환합니다.
 
 - 그럼에도 불구하고 10진수 정수를 반환하려는 의도로 해당 함수를 사용하면서 두 번째 매개변수에 10을 생략하는 잘못된 경우가 많다.
 
@@ -780,7 +792,7 @@ function safeDecimalParseInt(number, radix) {
 }
 ```
 
-## 29. 명시적인 연산자 사용 지양하기
+## 29. 명시적인 연산자 사용 지향하기
 
 - 명시적으로 연산자를 사용하여 예측 가능하고 디버깅하기 쉬운 코드를 작성해야 한다.
 
