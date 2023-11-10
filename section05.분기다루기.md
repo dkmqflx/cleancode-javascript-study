@@ -839,6 +839,8 @@ null ?? 10; // 10
 undefined ?? 10; // 10
 ```
 
+- 아래 두 함수는 message가 falsy한 값이 아닐때에 출력되는 함수이다.
+
 ```js
 function helloWorld(message) {
   if (!message) {
@@ -853,11 +855,11 @@ function helloWorld(message) {
 }
 ```
 
-- message가 undefined와 null일 때는 'Hello! World'를 출력하고, 이외에는 message를 출력해주고 싶다.
+- message가 undefined와 null일 때는 'Hello! World'를 출력하고, 이외에는 message를 출력해주고 싶은 경우가 있다고 하자.
 
-- 하지만 0을 넣었을 때 0은 falsy이므로 'Hello! World'가 출력된다.
+- 이러한 경우에 0을 넣었을 때 0은 falsy이므로 'Hello! World'가 출력된다.
 
-- 아래처럼 코드를 수정해준다
+- 따라서 아래처럼 코드를 수정해준다
 
 ```js
 function helloWorld(message) {
@@ -909,36 +911,10 @@ function createElement(type, height, width) {
 }
 ```
 
-- 다만 falsy한 값을 평가할 때는 OR 연산자를 사용해야 하는 것을 유념하면서 Null 병합 연산자를 사용하도록 한다
-
-- 아래와 같은 함수에서 undefined를 넣으면 원하는 값인 `"Hello! World";`가 출력되는데
-
-- 0인 경우에도 Early return이 되는 문제가 있다.
-
-```js
-function helloWorld(message) {
-  if (!message) {
-    return "Hello! World";
-  }
-
-  return "Hello! " + (message || "World");
-}
-
-helloWorld(undefined); //  "Hello! World";
-helloWorld(0); //  "Hello! World";
-```
-
-- 그렇기 때문에 message가 0인 경우에도 출력되도록 처리하고 싶다면 아래처럼 OR 연산자를 사용해서 함수를 처리해준다
-
-```js
-function helloWorld(message) {
-  return "Hello! " + (message || "World");
-}
-```
+- 따라서 falsy한 값을 평가할 때는 OR 연산자를 사용해야 하는 것을 유념하면서 Null 병합 연산자를 사용하도록 한다
 
 - 그리고 &&, || 와 같은 연산자와 ??는 함께 사용할 수 없다
 
-- Null 병합 연산자는 옵셔널 체이닝 연산자와 함께 사용하면 궁합이 좋다.
 
 ```js
 
@@ -958,10 +934,14 @@ function getUserName(isLogin, user) {
 }
 ```
 
+
+- Null 병합 연산자는 옵셔널 체이닝 연산자와 함께 사용하면 궁합이 좋다.
+
 ```js
-function onToggleModal(isShow) {
-  return isShow ?? false;
-}
+const foo = { someFooProp: "hi" };
+
+console.log(foo.someFooProp?.toUpperCase() ?? "not available"); // "HI"
+console.log(foo.someBarProp?.toUpperCase() ?? "not available"); // "not available"
 ```
 
 ## 31. 드모르간의 법칙
@@ -976,11 +956,6 @@ if (!(A && B)) {
 // 아래처럼 변경해준다
 if (!A || !B) {
 }
-
-/*
- *
- *
- */
 
 if (!(A || B)) {
 }
