@@ -6,6 +6,7 @@
  */
 const arr = [1, 2, 3];
 
+// 배열에 새로운 값들을 넣고 있다.
 arr[3] = "test";
 arr["property"] = "string value";
 arr["obj"] = {};
@@ -16,11 +17,11 @@ arr["func"] = function () {
   return "hello";
 };
 
-// 1, 2, 3 숫자만 출력된다
+// 1, 2, 3, 'test' 까지만 출력된다
 // 이외의 나머지 key에 할당한 값들을 출력되지 않는다
 // 이는 단순히 i가 숫자 값을 가지기 때문
 for (let i = 0; i < arr.length; i++) {
-  console.log(arr[i]);
+  console.log(arr[i]); // 1, 2, 3, 'test'
 }
 ```
 
@@ -28,6 +29,19 @@ for (let i = 0; i < arr.length; i++) {
 
 ```js
 console.log(arr);
+
+/*
+
+0: 1
+1: 2
+2: 3
+3: "test"
+[object Object]: (3) [1, 2, 3]
+obj: {}
+property: "string value"
+length: 4
+
+*/
 ```
 
 - 즉, 배열에 마치 객체에서 key와 value를 설정하듯이 값을 입력하면, 객체처럼 값이 입력된 것을 확인할 수 있다.
@@ -68,7 +82,7 @@ if (Array.isArray(arr)) {
 
 ## 33. Array.length
 
-- Array.length는 배열의 길이보다는 배열의 마지막 인덱스를 의미하는 것에 가깝다.
+- Array.length는 배열의 길이보다는 배열의 마지막 요소의 인덱스를 의미하는 것에 가깝다.
 
 - 아래처럼 배열의 길이를 0으로 설정하면 배열이 초기화된다.
 
@@ -92,6 +106,8 @@ console.log(arr.length); // 3
 arr.length = 10;
 
 console.log(arr.length); // 10
+
+console.log(arr) //  [1, 2, 3, , , , , , , , 10]
 ```
 
 ```js
@@ -106,10 +122,10 @@ console.log(arr.length); // 4
 
 arr[9] = 10;
 
-console.log(arr.length); // 10,  [1, 2, 3, , , , , , , ,10]
+console.log(arr.length); // 10,  [1, 2, 3, 4 , , , , , , , 10]
 ```
 
-- 그렇기 때문에 아래처럼 사용해서 배열을 초기화할 수 있다
+- 그렇기 때문에 이러한 배열의 속성을 이용해서 아래처럼 사용해서 배열을 초기화할 수 있다
 
 ```js
 /**
@@ -139,7 +155,8 @@ function clearArray(array) {
  * 배열 요소에 접근하기
  */
 
-// 아래처럼 사용할 때, 0과 1이 무엇인지 알 수 없다.
+
+// 아래처럼 사용할 때, inputs의 인덱스인 0과 1이 무엇인지 알 수 없다.
 function operateTime(input, operators, is) {
   inputs[0].split("").forEach((num) => {
     cy.get(".digit").contains(num).click();
@@ -150,7 +167,8 @@ function operateTime(input, operators, is) {
   });
 }
 
-// 아래처럼 destructuring을 사용하면 조금 더 명시적으로 확인할 수 있다
+// 위 코드를 아래처럼 개선할 수 있는데
+// destructuring을 사용하면 조금 더 명시적으로 확인할 수 있다
 function operateTime(input, operators, is) {
   const [firstInput, secondInput] = inputs;
 
@@ -162,7 +180,20 @@ function operateTime(input, operators, is) {
     cy.get(".digit").contains(num).click();
   });
 }
+
+
+// 또 다른 방법으로는 함수에서 전달받을 때 부터  destructuring을 해주는 것이다 
+function operateTime([firstInput, secondInput], operators, is) {
+  firstInput.split("").forEach((num) => {
+    cy.get(".digit").contains(num).click();
+  });
+
+  secondInput.split("").forEach((num) => {
+    cy.get(".digit").contains(num).click();
+  });
+}
 ```
+- 아래 코드도 이러한 방식으로 개선할 수 있다.
 
 ```js
 /**
@@ -177,8 +208,7 @@ function clickGroupButton() {
 
   // 위 코드도 아래처럼 수정해줄 수 있다
 
-  const [confirmButton, cancelButton, resetButton] =
-    document.getElementsByTagName("button");
+  const [confirmButton, cancelButton, resetButton] = document.getElementsByTagName("button");
 }
 ```
 
@@ -189,7 +219,11 @@ function clickGroupButton() {
  * 배열 요소에 접근하기
  */
 function formatDate(targetDate) {
-  // const date = targetDate.toISOString().split("T")[0];
+
+  // as-is
+  const date = targetDate.toISOString().split("T")[0];
+
+  // to-be
   const [date] = targetDate.toISOString().split("T");
 
   const [year, month, day] = date.split("-");
@@ -200,9 +234,9 @@ function formatDate(targetDate) {
 
 ## 35. 유사 배열 객체
 
-- 유사배열객체는 말 그대로 '배열'이 아닌 '객체'이다. 그런데 아래 코드처럼, length 속성과 인덱싱된 요소를 가진
+- 유사배열객체는 말 그대로 '배열'이 아닌 '객체'이다. 
 
-- 유사배열객체를 Array.from() 메서드를 사용하여 신기하게도 새로운 배열을 만드는 것을 볼 수 있다.
+- 그런데 아래 코드처럼, length 속성과 인덱싱된 요소를 가진 유사배열객체를 Array.from() 메서드를 사용하여 신기하게도 새로운 배열을 만드는 것을 볼 수 있다.
 
 - 유사 배열 객체 (length 속성과 인덱싱 된 요소를 가진 객체)
 
@@ -224,7 +258,7 @@ console.log(Array.isArray(arr)); // true
 console.log(arr); // [ 'HELLO', 'WORLD' ]
 ```
 
-- arguments나 webAPI의 node list 도 유사배열객체다.
+- 자바스크립트 함수 내부에 있는 arguments나 webAPI의 node list 도 유사배열객체다.
 
 - 유사배열객체는 배열의 고차함수 메서드를 사용할 수 없다.
 
@@ -236,10 +270,11 @@ console.log(arr); // [ 'HELLO', 'WORLD' ]
 /**
  * 유사 배열 객체
  */
+
 // 매개변수 미리 선언해두지 않아도, 전달된 매개변수를 arguments라는 값으로 다룰 수 있다
 function generatePriceList() {
   return arguments.map((arg) => arg + "원"); // 동작하지 않는다, arguments는 유사배열이기 때문
-  // return Array.from(arguments).map((arg) => arg + "원"); // 아래처럼 수정해야 map 함수를 사용할 수 있다.
+  // return Array.from(arguments).map((arg) => arg + "원"); // 아래처럼 배열로 변환해 주어야지 map 함수를 사용할 수 있다.
   // arguments의 __protp__를 확인해보면 map, filter, reduce 등등이 없기 때문이다
 }
 
@@ -488,9 +523,13 @@ for (const variable in object) {
   statement;
 }
 
+for (const variable of object) {
+  statement;
+}
+
 /*
 variable
-매번 반복마다 다른 속성이름(Value name)이 변수(variable)로 지정됩니다.
+매번 반복마다 다른 속성이름(Value name)이 변수(variable)로 지정된다.
 
 object
 반복작업을 수행할 객체로 열거형 속성을 가지고 있는 객체
