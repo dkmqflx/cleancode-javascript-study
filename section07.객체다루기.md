@@ -3,6 +3,7 @@
 - 아래는 css의 Shorthand Properties의 예시
 
 ```css
+/* as-is */
 .before {
   background-color: #000;
   background-image: url(images/bg.gif);
@@ -15,6 +16,7 @@
   margin-left: 5px;
 }
 
+/* to-be */
 .after {
   background: #000 url(images/bg.gif) no-repeat left top;
 
@@ -155,6 +157,7 @@ const funcName0 = "func0";
 const funcName1 = "func1";
 const funcName2 = "func2";
 
+// 아래처럼 computed property names를 이용해서 함수를 선언할 수 있따.
 const obj = {
   [funcName0]() {
     return "func0";
@@ -175,7 +178,9 @@ for (let i = 0; i < 3; i++) {
 
 ## 43. Lookup Table
 
-- 어떤 데이터가 인자로 들어오느냐에 따라 다른 데이터를 넣어주어야 할 때는, 객체를 Lookup Table 형태로 저장해둔 후 인자에 따라 해당 데이터를 리턴하는 식으로 한다.
+- Lookup Table이란 key - value 이루어진 테이블을 말한다.
+
+- 어떤 데이터가 인자로 들어오느냐에 따라 다른 데이터를 넣어주어야 할 때는, 객체를 Lookup Table 형태로 저장해둔 후 인자에 따라 다른 데이터를 리턴하는 식으로 한다.
 
 - 아래 코드는 인자로 들어온 User type에 따라 다른 데이터를 리턴한다
 
@@ -273,7 +278,7 @@ function getUserType(type) {
 }
 ```
 
-- 또는 바로 return 하도록 처리할 수 도 있다.
+- 또는 내부에 지역변수를 선언할 필요 없이 바로 return 하는 팩토리 함수같은 느낌으로도 처리할 수 도 있다.
 
 ```js
 /**
@@ -288,6 +293,8 @@ function getUserType(type) {
     }[type] ?? "해당 없음"
   );
 }
+
+getUserType('ADMIN')
 ```
 
 ## 44. Object Destructuring
