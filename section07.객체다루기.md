@@ -299,8 +299,6 @@ getUserType('ADMIN')
 
 ## 44. Object Destructuring
 
-- 인스턴스를 객체로 생성한 후, 생성자 함수에서 인자를 객체 디스트럭쳐링을 해 인스턴스 프로퍼티를 설정하기
-
 - 아래의 코드에서는 인자의 순서(name, age, location)가 중요하다.
 
 - 따라서 매개변수 순서를 잘못 전달할 시 문제가 발생한다.
@@ -360,6 +358,7 @@ function Person(name, { age, location }) {
   this.location = location;
 }
 
+// 옵션들을 만들어서 전달한다
 const fgStudyOptions = {
   age: 30,
   location: "korea",
@@ -386,7 +385,7 @@ const rd = orders[2];
 const [first, , third] = orders;
 ```
 
-- 아래처럼 배열이 객체임을 이용해 인덱스로 디스트럭쳐링하자.
+- 이렇게 하는 것 보다 조금 더 명시적으로 할 수 있는 방법이 있는데 아래처럼 배열이 객체임을 이용해 인덱스로 디스트럭쳐링하자.
 
 ```js
 const { 0: st2, 2: rd2 } = orders;
