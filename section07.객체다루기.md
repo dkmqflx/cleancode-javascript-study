@@ -524,6 +524,8 @@ console.log(Object.isFrozen(STATUS.OPTIONS)); // true
  * 2. JS 빌트인 객체를 건들지말자
  */
 
+// 자바스크립트가 많이 발전했다.
+// 아래 코드만 보더라도 class를 이용해서 필요한 기능을 정의할 수 있다
 class Car {
   constructor(name, brand) {
     this.name = name;
@@ -536,6 +538,24 @@ class Car {
 }
 
 const casper = new Car("캐스퍼", "현대");
+
+// class 없었을 때는 아래처럼 생성자 함수를 사용했어야 했다
+function Car(name, brand) {
+    this.name = name;
+    this.brand = brand;
+  }
+
+Car.prototype.sayName = function() {
+    return this.brand + "-" + this.name;
+  }
+
+
+// bad, 심지어 forEach 같이 이미 있는 것들도 건드는 경우 있는데 이렇게 하지 않도록 한다.
+// String.prototype.welcome = function(){
+  return 'hello';
+}
+
+'str'.welcome() // 'hello'
 ```
 
 ## 47. hasOwnProperty
@@ -551,7 +571,10 @@ const person = {
   name: "hyeonseok",
 };
 person.hasOwnProperty("name"); // true
+person.hasOwnProperty("age"); // false
 
+
+// Object.prototype와 call을 사용해야 하는 이유는 다음과 같다.
 const foo = {
   hasOwnProperty: function () {
     return "hasOwnProperty";
@@ -559,7 +582,8 @@ const foo = {
   bar: "string",
 };
 
-foo.hasOwnProperty("bar"); // hasOwnProperty
+
+foo.hasOwnProperty("bar"); // "hasOwnProperty" 가 리턴된다
 Object.prototype.hasOwnProperty.call(foo, bar); // true, 이렇게 Object의 hasOwnProperty와 call을 사용해야 한다
 
 /**
@@ -586,6 +610,9 @@ function hasOwnProp(targetObj, targetProp) {
 hasOwnProp(person, "name"); // true
 
 hasOwnProp(foo, "hasOwnProperty"); // true
+
+// eslint에도 이러한 규칙 있다.
+// https://eslint.org/docs/latest/rules/no-prototype-builtins
 ```
 
 ## 48. 직접 접근 지양하기
@@ -636,7 +663,7 @@ someElement.addEventListener("click", login);
 ```js
 /**
  * 직접 접근 지양하기
- * flux 아키텍처
+ * flux 아키텍처도 예시가 될 수 있다.
  * action -> reducer -> state 변화
  * 이렇게 상태 변화를 힘들게 하는 이유는 예측 가능하도록 하기 위해
  *
@@ -675,6 +702,18 @@ function logout() {
 }
 
 someElement.addEventListener("click", login);
+
+// 아래는 js의 getter property의 예시
+// https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Functions/get
+const obj = {
+  log: ['a', 'b', 'c'],
+  get latest() {
+    return this.log[this.log.length - 1];
+  },
+};
+
+console.log(obj.latest); // Expected output: "c"
+
 ```
 
 ## 49. Optional Chaining
