@@ -308,7 +308,7 @@ function handleClick() {
 }
 
 function showAlert(message) {
-  return alert(message);
+  return alert(message); // alert의 Return value는 None (undefined)이다.
 }
 
 function test(sum1, sum2) {
@@ -371,7 +371,7 @@ const user = {
 user.getName(); // "Poco"
 ```
 
-- arguments 객체에서 this 사용 불가 하다 (rest parameter 사용 가능, ...args)
+- 화살표 함수는 arguments 객체가 없다.
 
 ```js
 /**
